@@ -1,11 +1,12 @@
-#include <SerialParser.hpp>
+#include <KernelParser.hpp>
+#include <GlobalParser.hpp>
 
 #include <assets.hpp>
 
-SerialParser parser(client, Serial, ip, myDns, pins, 1);
+GlobalParser sparser(server, Serial3, Serial, ip, myDns, pins, 1);
 
 void setup() {
-  parser.init();
+  sparser.init();
 }
 
 byte c;
@@ -13,5 +14,6 @@ byte command[4] = { 0 };
 unsigned int command_counter = 0;
 
 void loop() {
-  parser.handle();
+  sparser.service_serial_handle();
+  sparser.service_ehtnernet_handle();
 }
