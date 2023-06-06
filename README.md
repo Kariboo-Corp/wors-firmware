@@ -114,7 +114,20 @@ Document the network configuration and connection details in the technical docum
 
 ---
 ## Build
-To build this firmware, you will need PlatformIOwith VS Code installed. 
+
+### Firmware
+To build this firmware, you will need PlatformIO with VS Code installed. All parameters are set in the platformio.ini file.
+
+### TCP Client Tester
+You will need to have a g++ working compiler and run this command in the `test` folder:
+```bash
+    g++ TCPClientTester.cpp -o TCPClientTester
+```
+To use it:
+
+```bash
+    ./TCPClientTester 192.168.31.16 3033
+```
 
 ## Hardware
 The prototype of the electronic board comprises an Arduino Mega microcontroller board integrated with an EthernetShield (Wiznet W5100). The EthernetShield enables the board to establish a TCP/IP connection. Additionally, the UART3 port of the Arduino Mega is connected to a USB to UART converter. This configuration emulates the functionality of a real USB port located on the board, allowing communication through the serial interface. Similarly, the Ethernet port on the Arduino Mega is utilized for network connectivity. It's worth noting that the primary USB port of the Arduino Mega is utilized as a debug probe, facilitating debugging and monitoring activities during the development process. This setup enables the prototype board to communicate over TCP/IP and it USB port in order to establish a connection with external devices or applications.
