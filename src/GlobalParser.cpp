@@ -15,12 +15,12 @@ void GlobalParser::service_serial_handle( void )
     if (__serial->available() > 0) {
         do {
             c = __serial->read();
-            if ((c != '\n') && (command_counter <= 4)) {
+            if ((c != 0xFF) && (command_counter <= 4)) {
                 this->command[command_counter] = c;
                 command_counter++;
                 delay(1);
             }
-        } while (c != '\n');
+        } while (c != 0xFF);
 
         command_counter = 0;
 
@@ -49,12 +49,12 @@ void GlobalParser::service_ehtnernet_handle( void )
                 do {
                     c = client.read();
                     debug("service_handle -> byte reveiced : %0.2X\n", c);
-                    if ((c != 0xFFFF) && (command_counter <= 4)) {
+                    if ((c != 0xFF) && (command_counter <= 4)) {
                         this->command[command_counter] = c;
                         command_counter++;
                         delay(1);
                     }
-                } while (c != 0xFFFF);
+                } while (c != 0xFF);
 
                 command_counter = 0;
 
@@ -123,13 +123,13 @@ void GlobalParser::publish_temperatures(uint8_t interface)
     publish(interface, temp1 & 0xFF); // send lowest 8 bits of the temp1
     publish(interface, temp1 >> 8); // shift the integer right 8 bits
     publish(interface, hash_checksum(CMD_GET_TEMPERATURE, (temp1 & 0xFF), (temp1 >> 8)));
-    publish(interface, '\n');
+    publish(interface, 0xFF);
 
     publish(interface, CMD_GET_TEMPERATURE);
     publish(interface, temp2 & 0xFF); // send lowest 8 bits of the temp2
     publish(interface, temp2 >> 8); // shift the integer right 8 bits
     publish(interface, hash_checksum(CMD_GET_TEMPERATURE, (temp2 & 0xFF), (temp2 >> 8)));
-    publish(interface, '\n');
+    publish(interface, 0xFF);
 
 }
 
@@ -141,5 +141,5 @@ void GlobalParser::publish_outputs(uint8_t interface)
     publish(interface, data & 0xFF); // send lowest 8 bits of the temp1
     publish(interface, data >> 8); // shift the integer right 8 bits
     publish(interface, hash_checksum(CMD_GET_TEMPERATURE, (data & 0xFF), (data >> 8)));
-    publish(interface, '\n');
+    publish(interface, 0xFF);
 }

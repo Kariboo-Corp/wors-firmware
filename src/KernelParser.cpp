@@ -150,6 +150,10 @@ void KernelParser::publish(uint8_t interface, uint8_t data)
             this->client.write(data);
         }
         break;
+
+    case PUBLISH_OVER_SERIAL:
+        __serial->write(data);
+        break;
     
     default:
         break;

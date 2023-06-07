@@ -37,8 +37,9 @@ A message is structured as follows:
 
 Operation codes specify the action to be performed on the GPIO port.
 The following operation codes are supported:
- - 0x01: Activate the specified GPIO port
- - 0x02: Deactivate the specified GPIO port
+ - 0x00: Activate the specified GPIO port
+ - 0x01: Deactivate the specified GPIO port
+ - 0x02: Toggle the specified GPIO port
  - 0x03: Ask temperatures. Reply 2 x 4 Bytes : [0x03, temp(low), temp(high), checksum], temp = (temp(low) + temp(high) * 0xFF) / 100
  - 0x04: Ask outputs hardware state . Reply 1 x 4 Bytes : [0x04, state(16-8), state(7-0), checksum].
 
@@ -90,8 +91,9 @@ A message follows the following structure:
 
 Operation codes specify the action to be performed on the GPIO port.
 The following operation codes are supported:
- - 0x01: Activate the specified GPIO port
- - 0x02: Deactivate the specified GPIO port
+ - 0x00: Activate the specified GPIO port
+ - 0x01: Deactivate the specified GPIO port
+ - 0x02: Toggle the specified GPIO port
  - 0x03: Ask temperatures. Reply 2 x 4 Bytes : [0x03, temp(low), temp(high), checksum], temp = (temp(low) + temp(high) * 0xFF) / 100
  - 0x04: Ask outputs hardware state . Reply 1 x 4 Bytes : [0x04, state(16-8), state(7-0), checksum].
 
