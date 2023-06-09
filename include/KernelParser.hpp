@@ -51,8 +51,8 @@ class KernelParser
 
         void init_hardware( void );
 
-        void hw_toggle_pin_write(uint8_t);
-        void hw_pin_write(uint8_t, uint8_t);
+        uint8_t hw_toggle_pin_write(uint8_t);
+        uint8_t hw_pin_write(uint8_t, uint8_t);
         uint16_t read_outputs( void );
 
         void publish(uint8_t, uint8_t);

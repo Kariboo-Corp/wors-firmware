@@ -79,10 +79,13 @@ bool KernelParser::checksum(byte *__command)
   return false;
 }
 
-void KernelParser::hw_toggle_pin_write(uint8_t pin)
+uint8_t KernelParser::hw_toggle_pin_write(uint8_t pin)
 {
     if (pin < 0 || pin > 15)
-        return;
+    {
+        debug("hw_write_pin -> pin %d out of range ... should be [0 15].\n\r", pin);
+        return 0;
+    }
     
     for (int i = 0; i < 16; i++)
     {
@@ -92,14 +95,16 @@ void KernelParser::hw_toggle_pin_write(uint8_t pin)
             digitalWrite(this->gpio.pinout[i], HIGH);
         }
     }
+
+    return 1;
     
 }
 
-void KernelParser::hw_pin_write(uint8_t pin, uint8_t state)
+uint8_t KernelParser::hw_pin_write(uint8_t pin, uint8_t state)
 {
     if (pin < 0 || pin > 15) {
-        debug("hw_write_pin -> pin %d out of range ... should be [0 15]. state : %.2X\n", pin, state);
-        return;
+        debug("hw_write_pin -> pin %d out of range ... should be [0 15]. state : %.2X\n\r", pin, state);
+        return 0;
     }
     
     switch (state)
@@ -114,8 +119,11 @@ void KernelParser::hw_pin_write(uint8_t pin, uint8_t state)
 
     default:
         debug("hw_write_pin -> pin %d state out of range : %.2X\n", pin, state);
+        return 0;
         break;
     }
+
+    return 1;
 }
 
 uint16_t KernelParser::read_outputs( void )

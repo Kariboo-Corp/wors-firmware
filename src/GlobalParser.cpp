@@ -76,18 +76,27 @@ void GlobalParser::execute_command(uint8_t interface)
     switch (this->command[0])
     {
         case CMD_SET_PIN_LOW: // disable output
-            hw_pin_write(this->command[1], HIGH); // SPDT HRF switches are in inverse logic
-            ack(interface);
+            if (hw_pin_write(this->command[1], HIGH)) // SPDT HRF switches are in inverse logic
+            {
+                ack(interface);
+            }
+            nack(interface);
             break;
 
         case CMD_SET_PIN_HIGH: // enable output
-            digitalWrite(this->gpio.pinout[this->command[1]], LOW); // SPDT HRF switches are in inverse logic
-            ack(interface);
+            if (hw_pin_write(this->gpio.pinout[this->command[1]], LOW)) // SPDT HRF switches are in inverse logic
+            {
+                ack(interface);
+            }
+            nack(interface);
             break;
         
         case CMD_TOGGLE_PIN: // toggle 'pin' HIGH, LOW otherwise
-            this->hw_toggle_pin_write(command[1]);
-            ack(interface);
+            if (this->hw_toggle_pin_write(command[1]))
+            {
+                ack(interface);
+            }
+            nack(interface);
             break;
 
         case CMD_GET_TEMPERATURE: // get temperature
