@@ -40,37 +40,48 @@ void GlobalParser::service_ehtnernet_handle( void )
     EthernetClient client = __server->available();
     this->client = client;
 
+    if (Ethernet.linkStatus() == LinkOFF) {
+        this->debug("Ethernet cable is not connected.\n");
+        ethernet_hardware_cable = false;
+    }
+
     char c;
     int command_counter = 0;
     
-    if (client) {
-        if (client.connected())  
+    if (ethernet_hardware)
+    {
+        if (ethernet_hardware_cable)
         {
-            if (client.available() > 0) {
-                do {
-                    c = client.read();
-                    debug("service_handle -> byte reveiced : %0.2X\n", c);
-                    if (((c != 0xFF) || (c != 0xFFFF)) && (command_counter <= 4)) {
-                        this->command[command_counter] = c;
-                        command_counter++;
-                        delay(1);
+            if (client) {
+                if (client.connected())  
+                {
+                    if (client.available() > 0) {
+                        do {
+                            c = client.read();
+                            debug("service_handle -> byte reveiced : %0.2X\n", c);
+                            if (((c != 0xFF) || (c != 0xFFFF)) && (command_counter <= 4)) {
+                                this->command[command_counter] = c;
+                                command_counter++;
+                                delay(1);
+                            }
+                        } while ((c != 0xFF) || (c != 0xFFFF));
+
+                        command_counter = 0;
+
+                        if (!checksum(this->command)) {
+                            this->nack(PUBLISH_OVER_ETHERNET);
+                            return;
+                        }
+
+                        execute_command(PUBLISH_OVER_ETHERNET);
+
+                        client.println();
                     }
-                } while ((c != 0xFF) || (c != 0xFFFF));
-
-                command_counter = 0;
-
-                if (!checksum(this->command)) {
-                    this->nack(PUBLISH_OVER_ETHERNET);
-                    return;
                 }
-
-                execute_command(PUBLISH_OVER_ETHERNET);
-
-                client.println();
             }
+            this->client.stop();
         }
     }
-    this->client.stop();
 }
 
 void GlobalParser::execute_command(uint8_t interface)

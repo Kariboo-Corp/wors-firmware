@@ -42,12 +42,11 @@ void KernelParser::init_hardware( void )
 
     if (Ethernet.hardwareStatus() == EthernetNoHardware) {
         this->debug("Ethernet shield was not found.  Sorry, can't run without hardware. :(\n");
-        while (true) {
-            delay(1); // do nothing, no point running without Ethernet hardware
-        }
+        ethernet_hardware = false;
     }
     if (Ethernet.linkStatus() == LinkOFF) {
         this->debug("Ethernet cable is not connected.\n");
+        ethernet_hardware_cable = false;
     }
 
     debug("init done.\n");

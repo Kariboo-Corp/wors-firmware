@@ -38,6 +38,9 @@ class KernelParser
         EthernetServer* __server;
         EthernetClient client;
 
+        boolean ethernet_hardware = true;
+        boolean ethernet_hardware_cable = true;
+
         HardwareSerial* __serial;
         HardwareSerial* debug_serial;
 
