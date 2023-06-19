@@ -59,12 +59,14 @@ void GlobalParser::service_ehtnernet_handle( void )
                         do {
                             c = client.read();
                             debug("service_handle -> byte reveiced : %0.2X\n", c);
-                            if (((c != 0xFF) || (c != 0xFFFF)) && (command_counter <= 4)) {
+                            if ((c != 0xFF) && (command_counter <= 4)) {
                                 this->command[command_counter] = c;
                                 command_counter++;
                                 delay(1);
+                            } else {
+                                break;
                             }
-                        } while ((c != 0xFF) || (c != 0xFFFF));
+                        } while (c != 0xFF);
 
                         command_counter = 0;
 

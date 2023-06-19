@@ -10,8 +10,4 @@ struct GPIO pins = {
      { 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53 },
      { 0 }
 };
-
-void parse_command(byte*);
-bool checksum(byte*);
-
 #endif
