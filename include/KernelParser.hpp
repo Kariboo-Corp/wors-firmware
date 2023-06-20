@@ -7,16 +7,16 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#define CMD_SET_PIN_LOW  0x00
-#define CMD_SET_PIN_HIGH 0x01
-#define CMD_TOGGLE_PIN   0x02
-#define CMD_GET_TEMPERATURE 0x03
-#define CMD_GET_OUTPUTS  0x04
+#define CMD_SET_PIN_LOW  0x01
+#define CMD_SET_PIN_HIGH 0x02
+#define CMD_TOGGLE_PIN   0x03
+#define CMD_GET_TEMPERATURE 0x04
+#define CMD_GET_OUTPUTS  0x05
 
 #define PUBLISH_OVER_ETHERNET 0x00
 #define PUBLISH_OVER_SERIAL   0x01
 
-#define CMD_BOARD_IDENTIFY 0x05
+#define CMD_BOARD_IDENTIFY 0x00
 #define BOARD_ID           0x58
 struct GPIO
 {
