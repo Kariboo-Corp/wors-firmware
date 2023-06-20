@@ -16,6 +16,8 @@
 #define PUBLISH_OVER_ETHERNET 0x00
 #define PUBLISH_OVER_SERIAL   0x01
 
+#define CMD_BOARD_IDENTIFY 0x05
+#define BOARD_ID           0x58
 struct GPIO
 {
     uint8_t pinout[16];
@@ -59,6 +61,7 @@ class KernelParser
         uint16_t read_outputs( void );
 
         void publish(uint8_t, uint8_t);
+        uint8_t KernelParser::send_packet(uint8_t interface, uint8_t cmd, uint16_t data);
 };
 
 

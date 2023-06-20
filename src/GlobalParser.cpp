@@ -99,7 +99,7 @@ void GlobalParser::execute_command(uint8_t interface)
             break;
 
         case CMD_SET_PIN_HIGH: // enable output
-            if (hw_pin_write(this->gpio.pinout[this->command[1]], LOW)) // SPDT HRF switches are in inverse logic
+            if (hw_pin_write(this->command[1], LOW)) // SPDT HRF switches are in inverse logic
             {
                 ack(interface);
             } else 
@@ -123,6 +123,10 @@ void GlobalParser::execute_command(uint8_t interface)
             publish_outputs(interface);
             ack(interface);
             break;
+        case CMD_BOARD_IDENTIFY:
+            send_packet(interface, CMD_BOARD_IDENTIFY, BOARD_ID);
+            ack(interface);
+            break;
             
         default:
             debug("execute_command -> can't find any command for %.2X ...\n", command[0]);
@@ -143,27 +147,13 @@ void GlobalParser::publish_temperatures(uint8_t interface)
     temp1 = simulated_temp_1 * 100; // should not overflow 16 bits (65,535)
     temp2 = simulated_temp_2 * 100;
 
-    publish(interface, CMD_GET_TEMPERATURE);
-    publish(interface, temp1 & 0xFF); // send lowest 8 bits of the temp1
-    publish(interface, temp1 >> 8); // shift the integer right 8 bits
-    publish(interface, hash_checksum(CMD_GET_TEMPERATURE, (temp1 & 0xFF), (temp1 >> 8)));
-    publish(interface, 0xFF);
-
-    publish(interface, CMD_GET_TEMPERATURE);
-    publish(interface, temp2 & 0xFF); // send lowest 8 bits of the temp2
-    publish(interface, temp2 >> 8); // shift the integer right 8 bits
-    publish(interface, hash_checksum(CMD_GET_TEMPERATURE, (temp2 & 0xFF), (temp2 >> 8)));
-    publish(interface, 0xFF);
+    send_packet(interface, CMD_GET_TEMPERATURE, temp1);
+    send_packet(interface, CMD_GET_TEMPERATURE, temp2);
 
 }
 
 void GlobalParser::publish_outputs(uint8_t interface)
 {
     uint16_t data = read_outputs();
-
-    publish(interface, CMD_GET_OUTPUTS);
-    publish(interface, data & 0xFF); // send lowest 8 bits of the temp1
-    publish(interface, data >> 8); // shift the integer right 8 bits
-    publish(interface, hash_checksum(CMD_GET_TEMPERATURE, (data & 0xFF), (data >> 8)));
-    publish(interface, 0xFF);
+    send_packet(interface, CMD_GET_OUTPUTS, data);
 }

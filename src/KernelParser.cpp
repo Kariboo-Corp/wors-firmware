@@ -166,3 +166,18 @@ void KernelParser::publish(uint8_t interface, uint8_t data)
         break;
     }
 }
+
+uint8_t KernelParser::send_packet(uint8_t interface, uint8_t cmd, uint16_t data)
+{
+    byte h, l;
+    h = (data & 0xFF);
+    l = (data >> 8);
+
+    publish(interface, cmd);
+    publish(interface, h);
+    publish(interface, l);
+    publish(interface, hash_checksum(cmd, h, l));
+    publish(interface, 0xFF);
+
+    return 1;
+}
