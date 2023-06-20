@@ -96,6 +96,7 @@ The following operation codes are supported:
  - 0x02: Toggle the specified GPIO port
  - 0x03: Ask temperatures. Reply 2 x 4 Bytes : [0x03, temp(low), temp(high), checksum], temp = (temp(low) + temp(high) * 0xFF) / 100
  - 0x04: Ask outputs hardware state . Reply 1 x 4 Bytes : [0x04, state(16-8), state(7-0), checksum].
+ - 0x05: Ask for board ID. Should reply 0x58 in this case.
 
 ### Communication Protocol
  - 5.1 Connection Establishment
