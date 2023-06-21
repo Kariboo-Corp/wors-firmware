@@ -109,11 +109,11 @@ uint8_t KernelParser::hw_pin_write(uint8_t pin, uint8_t state)
     switch (state)
     {
     case HIGH:
-        digitalWrite(this->gpio.pinout[pin], HIGH);
+        digitalWrite(this->gpio.pinout[pin], LOW);
         break;
     
     case LOW:
-        digitalWrite(this->gpio.pinout[pin], LOW);
+        digitalWrite(this->gpio.pinout[pin], HIGH);
         break;
 
     default:
