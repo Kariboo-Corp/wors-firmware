@@ -38,7 +38,9 @@ void KernelParser::init_hardware( void )
 
     this->debug("Initialize Ethernet with DHCP.\n");
     
-    Ethernet.begin(this->mac, ip, dns);
+    Ethernet.begin(this->mac); // , ip, dns
+
+    // add lcd screen to display status ?
 
     if (Ethernet.hardwareStatus() == EthernetNoHardware) {
         this->debug("Ethernet shield was not found.  Sorry, can't run without hardware. :(\n");
@@ -49,7 +51,11 @@ void KernelParser::init_hardware( void )
         ethernet_hardware_cable = false;
     }
 
-    debug("init done.\n");
+    this->ip = Ethernet.localIP();
+
+    debug("init_hardware -> assigned ip is: %d.%d.%d.%d\n", ip[0], ip[1], ip[2], ip[3]);
+
+    debug("init_hardware -> init done.\n");
 }
 
 byte KernelParser::hash_checksum(byte _cmd, byte _data_1, byte _data_2)
