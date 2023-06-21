@@ -61,7 +61,7 @@ class KernelParser
         uint16_t read_outputs( void );
 
         void publish(uint8_t, uint8_t);
-        uint8_t KernelParser::send_packet(uint8_t interface, uint8_t cmd, uint16_t data);
+        uint8_t send_packet(uint8_t interface, uint8_t cmd, uint16_t data);
 };
 
 
